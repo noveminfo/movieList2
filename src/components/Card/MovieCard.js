@@ -6,6 +6,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import Popup from 'react-popup'
 
 const useStyles = makeStyles({
   root: {
@@ -20,8 +21,34 @@ const useStyles = makeStyles({
 const MovieCard = ({ movie }) => {
   const classes = useStyles();
 
+  const handleClick = e => {
+    e.preventDefault();
+    
+    if (movie) {
+      Popup.create({
+        title: movie.title,
+        content: (
+          <div>
+            <h3>Overview</h3>
+            <p>{movie.overview}</p>
+          </div>
+        ),
+        buttons: {
+          right: [{
+            text: 'Close',
+            action: popup => popup.close()
+          }],
+        },
+      });
+    }
+  }
+
   return (
-    <Card className={classes.root} elevation={0}>
+    <Card
+      className={classes.root}
+      elevation={0}
+      onClick={handleClick}
+    >
       <CardActionArea>
         <CardMedia
           className={classes.media}
